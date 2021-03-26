@@ -5,3 +5,19 @@ required = [
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "github.com/streadway/amqp"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/pkg/errors"
+  version = "0.9.1"
+
+[[constraint]]
+  name = "github.com/go-log/log"
+  version = "0.2.0"
+
+[[constraint]]
+  name = "github.com/caarlos0/env"
+  version = "6.5.0"

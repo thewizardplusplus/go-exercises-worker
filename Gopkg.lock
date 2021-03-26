@@ -18,6 +18,25 @@
   revision = "ff826a37aa15cdf16e29024a782c790f19aab6c2"
 
 [[projects]]
+  digest = "1:3f3620f51ffff4e4da9af162bb7a597880ae49b6c6e92caf78b85a186da17efb"
+  name = "github.com/caarlos0/env"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e244b8ab4ce741f29f37ac56f4ddd67acce3fb73"
+  version = "v6.5.0"
+
+[[projects]]
+  digest = "1:85138d5daba3306acc15e3b1c9226a2866e068c4822bbf0875d5143db225face"
+  name = "github.com/go-log/log"
+  packages = [
+    ".",
+    "print",
+  ]
+  pruneopts = "UT"
+  revision = "cbf5cacfbfff319fd20a42367df566e0ace3d4ee"
+  version = "v0.2.0"
+
+[[projects]]
   branch = "master"
   digest = "1:ae4407ca7731ceb7b54b059fced30f335d32486a2148e262b19067261f959b42"
   name = "github.com/google/shlex"
@@ -47,6 +66,22 @@
   version = "v1.8.1"
 
 [[projects]]
+  digest = "1:9e1d37b58d17113ec3cb5608ac0382313c5b59470b94ed97d0976e69c7022314"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "614d223910a179a466c1767a985424175c39b465"
+  version = "v0.9.1"
+
+[[projects]]
+  digest = "1:5ca236e4ecfeb92a57b7a4c7f139023384e7f726640f61b17820473cc82dfb77"
+  name = "github.com/streadway/amqp"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1c71cc93ed716f9a6f4c2ae8955c25f9176d9f19"
+  version = "v1.0.0"
+
+[[projects]]
   branch = "v3-unstable"
   digest = "1:31a6e00d07add280bd1ee2e8668077e2435c6b9cb7ad7ba8920e258382ae9f9e"
   name = "gopkg.in/alecthomas/kingpin.v3-unstable"
@@ -65,6 +100,13 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/alecthomas/gometalinter"]
+  input-imports = [
+    "github.com/alecthomas/gometalinter",
+    "github.com/caarlos0/env",
+    "github.com/go-log/log",
+    "github.com/go-log/log/print",
+    "github.com/pkg/errors",
+    "github.com/streadway/amqp",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
