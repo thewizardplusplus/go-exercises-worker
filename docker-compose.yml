@@ -1,0 +1,20 @@
+version: "3"
+services:
+  go-exercises-worker:
+    build: .
+    environment:
+      MESSAGE_BROKER_ADDRESS: amqp://rabbitmq:rabbitmq@rabbitmq:5672
+    command:
+      - /usr/local/bin/wait-for-it.sh
+      - rabbitmq:5672
+      - --
+      - /usr/local/bin/go-exercises-worker
+
+  rabbitmq:
+    image: rabbitmq:3.8.14-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    ports:
+      - 5672:5672 # RabbitMQ server
+      - 15672:15672 # RabbitMQ management plugin
