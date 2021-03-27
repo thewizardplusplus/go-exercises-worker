@@ -6,7 +6,7 @@ type Solution struct {
 	Task      Task
 	Code      string
 	IsCorrect bool
-	Result    string
+	Result    interface{}
 }
 
 // Task ...
