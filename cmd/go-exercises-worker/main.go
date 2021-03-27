@@ -47,8 +47,10 @@ func main() {
 		queues.NewSolutionHandler(
 			messageBrokerClient,
 			queues.SolutionHandlerDependencies{
-				SolutionRunner: runners.DummySolutionRunner{},
-				Logger:         print.New(logger),
+				SolutionRunner: runners.DummySolutionRunner{
+					Logger: print.New(logger),
+				},
+				Logger: print.New(logger),
 			},
 		),
 	)
