@@ -41,7 +41,8 @@ func (handler SolutionHandler) HandleMessage(message amqp.Delivery) {
 		err = errors.Wrapf(err, "[error] unable to handle solution #%d", solution.ID)
 		handler.dependencies.Logger.Log(err)
 
-		message.Reject(true) // nolint: gosec, errcheck
+		// requeue the message only once
+		message.Reject(!message.Redelivered) // nolint: gosec, errcheck
 		return
 	}
 
