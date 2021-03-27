@@ -11,5 +11,11 @@ type Solution struct {
 
 // Task ...
 type Task struct {
-	TestCases string
+	TestCases []TestCase
+}
+
+// TestCase ...
+type TestCase struct {
+	Input          string
+	ExpectedOutput string
 }
