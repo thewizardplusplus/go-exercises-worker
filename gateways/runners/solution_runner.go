@@ -1,6 +1,7 @@
 package runners
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -62,5 +63,7 @@ func (runner SolutionRunner) RunSolution(
 	}
 
 	updatedSolution.IsCorrect = true
+	updatedSolution.Result = json.RawMessage("{}") // empty JSON object
+
 	return updatedSolution, nil
 }
