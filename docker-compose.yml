@@ -4,11 +4,14 @@ services:
     build: .
     environment:
       MESSAGE_BROKER_ADDRESS: amqp://rabbitmq:rabbitmq@rabbitmq:5672
+      ALLOWED_IMPORT_CONFIG: /etc/go-exercises-worker/allowed_imports.json
     command:
       - /usr/local/bin/wait-for-it.sh
       - rabbitmq:5672
       - --
       - /usr/local/bin/go-exercises-worker
+    volumes:
+      - ./configs:/etc/go-exercises-worker
 
   rabbitmq:
     image: rabbitmq:3.8.14-management-alpine
