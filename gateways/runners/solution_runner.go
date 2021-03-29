@@ -1,6 +1,7 @@
 package runners
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -8,6 +9,16 @@ import (
 	testrunner "github.com/thewizardplusplus/go-code-runner/test-runner"
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
 )
+
+// ErrFailedCompiling ...
+type ErrFailedCompiling struct {
+	ErrMessage string
+}
+
+// Error ...
+func (err ErrFailedCompiling) Error() string {
+	return fmt.Sprintf("failed compiling: %s", err.ErrMessage)
+}
 
 // SolutionRunner ...
 type SolutionRunner struct {
@@ -28,7 +39,7 @@ func (runner SolutionRunner) RunSolution(
 	pathToExecutable, err :=
 		coderunner.CompileCode(pathToCode, runner.AllowedImports)
 	if err != nil {
-		updatedSolution.Result = testrunner.ErrFailedRunning{ErrMessage: err.Error()}
+		updatedSolution.Result = ErrFailedCompiling{ErrMessage: err.Error()}
 		return updatedSolution, nil
 	}
 
