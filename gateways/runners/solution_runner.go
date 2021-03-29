@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/go-log/log"
+	"github.com/pkg/errors"
 	coderunner "github.com/thewizardplusplus/go-code-runner"
 	testrunner "github.com/thewizardplusplus/go-code-runner/test-runner"
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
@@ -23,6 +25,7 @@ func (err ErrFailedCompiling) Error() string {
 // SolutionRunner ...
 type SolutionRunner struct {
 	AllowedImports []string
+	Logger         log.Logger
 }
 
 // RunSolution ...
@@ -39,13 +42,25 @@ func (runner SolutionRunner) RunSolution(
 	pathToExecutable, err :=
 		coderunner.CompileCode(pathToCode, runner.AllowedImports)
 	if err != nil {
+		runner.Logger.
+			Log(errors.Wrapf(err, "[error] unable to compile solution #%d", solution.ID))
 		updatedSolution.Result = ErrFailedCompiling{ErrMessage: err.Error()}
+
 		return updatedSolution, nil
 	}
 
-	runningErr := testrunner.RunCode(pathToExecutable, solution.Task.TestCases)
-	updatedSolution.IsCorrect = runningErr == nil
-	updatedSolution.Result = runningErr
+	if err := testrunner.RunCode(
+		pathToExecutable,
+		solution.Task.TestCases,
+	); err != nil {
+		runner.Logger.
+			Log(errors.Wrapf(err, "[error] unable to run solution #%d", solution.ID))
+		// the error is already wrapped in the testrunner.RunCode() function
+		updatedSolution.Result = err
 
+		return updatedSolution, nil
+	}
+
+	updatedSolution.IsCorrect = true
 	return updatedSolution, nil
 }
