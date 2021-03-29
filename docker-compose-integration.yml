@@ -1,0 +1,15 @@
+version: "3"
+services:
+  go-exercises-worker:
+    build: .
+    environment:
+      MESSAGE_BROKER_ADDRESS: amqp://rabbitmq:rabbitmq@localhost:5672
+      ALLOWED_IMPORT_CONFIG: /etc/go-exercises-worker/allowed_imports.json
+    command:
+      - /usr/local/bin/wait-for-it.sh
+      - localhost:5672
+      - --
+      - /usr/local/bin/go-exercises-worker
+    volumes:
+      - ./configs:/etc/go-exercises-worker
+    network_mode: host
