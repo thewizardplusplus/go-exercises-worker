@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/signal"
@@ -12,7 +14,8 @@ import (
 )
 
 type options struct {
-	MessageBroker struct {
+	AllowedImportConfig string `env:"ALLOWED_IMPORT_CONFIG" envDefault:"./configs/allowed_imports.json"` // nolint: lll
+	MessageBroker       struct {
 		Address string `env:"MESSAGE_BROKER_ADDRESS" envDefault:"amqp://rabbitmq:rabbitmq@localhost:5672"` // nolint: lll
 	}
 	SolutionConsumer struct {
@@ -27,6 +30,18 @@ func main() {
 	var options options
 	if err := env.Parse(&options); err != nil {
 		logger.Fatalf("[error] unable to parse the options: %v", err)
+	}
+
+	var allowedImports []string
+	allowedImportsAsJSON, err := ioutil.ReadFile(options.AllowedImportConfig)
+	if err != nil {
+		logger.Fatalf("[error] unable to read the allowed import config: %v", err)
+	}
+	if err := json.Unmarshal(allowedImportsAsJSON, &allowedImports); err != nil {
+		logger.Fatalf(
+			"[error] unable to unmarshal the allowed import config: %v",
+			err,
+		)
 	}
 
 	messageBrokerClient, err := queues.NewClient(
@@ -48,7 +63,7 @@ func main() {
 			messageBrokerClient,
 			queues.SolutionHandlerDependencies{
 				SolutionRunner: runners.SolutionRunner{
-					AllowedImports: nil,
+					AllowedImports: allowedImports,
 					Logger:         print.New(logger),
 				},
 				Logger: print.New(logger),
