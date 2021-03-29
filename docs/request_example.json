@@ -1,0 +1,10 @@
+{
+  "ID": 23,
+  "Task": {
+    "TestCases": [
+      { "Input": "5 12", "ExpectedOutput": "17\n" },
+      { "Input": "23 42", "ExpectedOutput": "65\n" }
+    ]
+  },
+  "Code": "package main; func main() { var x, y int; fmt.Scan(&x, &y); fmt.Println(x + y) }"
+}
