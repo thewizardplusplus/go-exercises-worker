@@ -1,5 +1,9 @@
 package entities
 
+import (
+	testrunner "github.com/thewizardplusplus/go-code-runner/test-runner"
+)
+
 // Solution ...
 type Solution struct {
 	ID        uint
@@ -11,11 +15,5 @@ type Solution struct {
 
 // Task ...
 type Task struct {
-	TestCases []TestCase
-}
-
-// TestCase ...
-type TestCase struct {
-	Input          string
-	ExpectedOutput string
+	TestCases []testrunner.TestCase
 }
