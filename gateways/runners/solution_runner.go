@@ -20,22 +20,21 @@ func (runner SolutionRunner) RunSolution(
 ) (entities.Solution, error) {
 	pathToCode, err := coderunner.SaveTemporaryCode(solution.Code)
 	if err != nil {
-		return entities.Solution{}, err
+		return entities.Solution{}, errors.Wrap(err, "unable to save the solution")
 	}
 	defer os.RemoveAll(filepath.Dir(pathToCode)) // nolint: errcheck
 
+	updatedSolution := entities.Solution{ID: solution.ID}
 	pathToExecutable, err :=
 		coderunner.CompileCode(pathToCode, runner.AllowedImports)
 	if err != nil {
-		return entities.Solution{}, err
+		updatedSolution.Result = testrunner.ErrFailedRunning{ErrMessage: err.Error()}
+		return updatedSolution, nil
 	}
 
 	runningErr := testrunner.RunCode(pathToExecutable, solution.Task.TestCases)
+	updatedSolution.IsCorrect = runningErr == nil
+	updatedSolution.Result = runningErr
 
-	updatedSolution := entities.Solution{
-		ID:        solution.ID,
-		IsCorrect: runningErr == nil,
-		Result:    runningErr,
-	}
 	return updatedSolution, nil
 }
