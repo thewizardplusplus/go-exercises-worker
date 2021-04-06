@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"time"
 
 	"github.com/caarlos0/env"
 	"github.com/go-log/log/print"
@@ -14,7 +15,8 @@ import (
 )
 
 type options struct {
-	AllowedImportConfig string `env:"ALLOWED_IMPORT_CONFIG" envDefault:"./configs/allowed_imports.json"` // nolint: lll
+	AllowedImportConfig string        `env:"ALLOWED_IMPORT_CONFIG" envDefault:"./configs/allowed_imports.json"` // nolint: lll
+	RunningTimeout      time.Duration `env:"RUNNING_TIMEOUT" envDefault:"10s"`
 	MessageBroker       struct {
 		Address string `env:"MESSAGE_BROKER_ADDRESS" envDefault:"amqp://rabbitmq:rabbitmq@localhost:5672"` // nolint: lll
 	}
@@ -64,6 +66,7 @@ func main() {
 			queues.SolutionHandlerDependencies{
 				SolutionRunner: runners.SolutionRunner{
 					AllowedImports: allowedImports,
+					RunningTimeout: options.RunningTimeout,
 					Logger:         print.New(logger),
 				},
 				Logger: print.New(logger),
