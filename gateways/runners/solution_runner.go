@@ -1,10 +1,12 @@
 package runners
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/go-log/log"
 	"github.com/pkg/errors"
@@ -26,6 +28,7 @@ func (err ErrFailedCompiling) Error() string {
 // SolutionRunner ...
 type SolutionRunner struct {
 	AllowedImports []string
+	RunningTimeout time.Duration
 	Logger         log.Logger
 }
 
@@ -50,7 +53,11 @@ func (runner SolutionRunner) RunSolution(
 		return updatedSolution, nil
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), runner.RunningTimeout)
+	defer cancel()
+
 	if err := testrunner.RunCode(
+		ctx,
 		pathToExecutable,
 		solution.Task.TestCases,
 	); err != nil {
