@@ -3,7 +3,6 @@ package runners
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"time"
@@ -16,16 +15,6 @@ import (
 	testrunner "github.com/thewizardplusplus/go-code-runner/test-runner"
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
 )
-
-// ErrFailedCompiling ...
-type ErrFailedCompiling struct {
-	ErrMessage string
-}
-
-// Error ...
-func (err ErrFailedCompiling) Error() string {
-	return fmt.Sprintf("failed compiling: %s", err.ErrMessage)
-}
 
 // SolutionRunner ...
 type SolutionRunner struct {
