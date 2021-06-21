@@ -38,7 +38,7 @@ func (handler SolutionHandler) HandleMessage(message interface{}) error {
 	err = handler.Client.
 		PublishMessage(handler.SolutionResultQueueName, messageID, solution)
 	if err != nil {
-		return errors.Wrap(err, "unable to publish the solution")
+		return errors.Wrap(err, "unable to publish the solution result")
 	}
 
 	return nil
