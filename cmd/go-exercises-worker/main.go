@@ -70,8 +70,9 @@ func main() {
 		}
 	}()
 
-	solutionConsumer, err := queues.NewSolutionConsumer(
+	solutionConsumer, err := rabbitmqutils.NewMessageConsumer(
 		messageBrokerClient,
+		queues.SolutionQueueName,
 		queues.NewSolutionHandler(
 			messageBrokerClient,
 			queues.SolutionHandlerDependencies{
