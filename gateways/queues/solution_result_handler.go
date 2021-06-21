@@ -13,23 +13,11 @@ type SolutionRunner interface {
 	RunSolution(solution entities.Solution) (entities.Solution, error)
 }
 
-// SolutionHandlerDependencies ...
-type SolutionHandlerDependencies struct {
-	SolutionRunner SolutionRunner
-}
-
 // SolutionHandler ...
 type SolutionHandler struct {
-	client       rabbitmqutils.Client
-	dependencies SolutionHandlerDependencies
-}
-
-// NewSolutionHandler ...
-func NewSolutionHandler(
-	client rabbitmqutils.Client,
-	dependencies SolutionHandlerDependencies,
-) SolutionHandler {
-	return SolutionHandler{client: client, dependencies: dependencies}
+	SolutionResultQueueName string
+	SolutionRunner          SolutionRunner
+	Client                  rabbitmqutils.Client
 }
 
 // MessageType ...
@@ -39,13 +27,14 @@ func (handler SolutionHandler) MessageType() reflect.Type {
 
 // HandleMessage ...
 func (handler SolutionHandler) HandleMessage(message interface{}) error {
-	solution, err :=
-		handler.dependencies.SolutionRunner.RunSolution(message.(entities.Solution))
+	solution, err := handler.SolutionRunner.
+		RunSolution(message.(entities.Solution))
 	if err != nil {
 		return errors.Wrap(err, "unable to run the solution")
 	}
 
-	err = handler.client.PublishMessage(SolutionResultQueueName, "", solution)
+	err = handler.Client.
+		PublishMessage(handler.SolutionResultQueueName, "", solution)
 	if err != nil {
 		return errors.Wrap(err, "unable to publish the solution")
 	}

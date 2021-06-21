@@ -76,16 +76,15 @@ func main() {
 		rabbitmqutils.Acknowledger{
 			MessageHandling: rabbitmqutils.TwiceMessageHandling,
 			MessageHandler: rabbitmqutils.JSONMessageHandler{
-				MessageHandler: queues.NewSolutionHandler(
-					messageBrokerClient,
-					queues.SolutionHandlerDependencies{
-						SolutionRunner: runners.SolutionRunner{
-							AllowedImports: allowedImports,
-							RunningTimeout: options.RunningTimeout,
-							Logger:         print.New(logger),
-						},
+				MessageHandler: queues.SolutionHandler{
+					SolutionResultQueueName: queues.SolutionResultQueueName,
+					SolutionRunner: runners.SolutionRunner{
+						AllowedImports: allowedImports,
+						RunningTimeout: options.RunningTimeout,
+						Logger:         print.New(logger),
 					},
-				),
+					Client: messageBrokerClient,
+				},
 			},
 			Logger: print.New(logger),
 		},
