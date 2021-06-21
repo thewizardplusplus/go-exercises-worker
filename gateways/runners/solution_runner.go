@@ -41,7 +41,7 @@ func (runner SolutionRunner) RunSolution(solution entities.Solution) (
 		coderunner.CompileCode(ctx, pathToCode, runner.AllowedImports)
 	if err != nil {
 		runner.Logger.
-			Log(errors.Wrapf(err, "[error] unable to compile solution #%d", solution.ID))
+			Logf("[error] unable to compile solution #%d: %s", solution.ID, err)
 
 		updatedSolution := entities.Solution{
 			ID:     solution.ID,
@@ -58,8 +58,7 @@ func (runner SolutionRunner) RunSolution(solution entities.Solution) (
 		},
 	)
 	if err != nil {
-		runner.Logger.
-			Log(errors.Wrapf(err, "[error] unable to run solution #%d", solution.ID))
+		runner.Logger.Logf("[error] unable to run solution #%d: %s", solution.ID, err)
 
 		updatedSolution := entities.Solution{
 			ID:     solution.ID,
