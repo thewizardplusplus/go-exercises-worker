@@ -73,17 +73,20 @@ func main() {
 	solutionConsumer, err := rabbitmqutils.NewMessageConsumer(
 		messageBrokerClient,
 		queues.SolutionQueueName,
-		queues.NewSolutionHandler(
-			messageBrokerClient,
-			queues.SolutionHandlerDependencies{
-				SolutionRunner: runners.SolutionRunner{
-					AllowedImports: allowedImports,
-					RunningTimeout: options.RunningTimeout,
-					Logger:         print.New(logger),
+		rabbitmqutils.Acknowledger{
+			MessageHandling: rabbitmqutils.TwiceMessageHandling,
+			MessageHandler: queues.NewSolutionHandler(
+				messageBrokerClient,
+				queues.SolutionHandlerDependencies{
+					SolutionRunner: runners.SolutionRunner{
+						AllowedImports: allowedImports,
+						RunningTimeout: options.RunningTimeout,
+						Logger:         print.New(logger),
+					},
 				},
-				Logger: print.New(logger),
-			},
-		),
+			),
+			Logger: print.New(logger),
+		},
 	)
 	if err != nil {
 		logger.Fatalf("[error] unable to create the solution consumer: %v", err)
