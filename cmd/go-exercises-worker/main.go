@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/caarlos0/env"
+	mapset "github.com/deckarep/golang-set"
 	"github.com/go-log/log/print"
 	"github.com/thewizardplusplus/go-exercises-worker/gateways/queues"
 	"github.com/thewizardplusplus/go-exercises-worker/gateways/runners"
@@ -34,16 +35,21 @@ func main() {
 		logger.Fatalf("[error] unable to parse the options: %v", err)
 	}
 
-	var allowedImports []string
 	allowedImportsAsJSON, err := ioutil.ReadFile(options.AllowedImportConfig)
 	if err != nil {
 		logger.Fatalf("[error] unable to read the allowed import config: %v", err)
 	}
-	if err := json.Unmarshal(allowedImportsAsJSON, &allowedImports); err != nil {
+	var allowedImportAsSlice []string
+	err = json.Unmarshal(allowedImportsAsJSON, &allowedImportAsSlice)
+	if err != nil {
 		logger.Fatalf(
 			"[error] unable to unmarshal the allowed import config: %v",
 			err,
 		)
+	}
+	allowedImports := mapset.NewSet()
+	for _, allowedImport := range allowedImportAsSlice {
+		allowedImports.Add(allowedImport)
 	}
 
 	messageBrokerClient, err := queues.NewClient(
