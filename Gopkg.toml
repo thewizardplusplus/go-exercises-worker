@@ -1,5 +1,6 @@
 required = [
   "github.com/alecthomas/gometalinter",
+  "github.com/cweill/gotests/gotests",
 ]
 
 [prune]
