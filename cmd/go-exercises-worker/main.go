@@ -83,7 +83,7 @@ func main() {
 						RunningTimeout: options.RunningTimeout,
 						Logger:         print.New(logger),
 					},
-					Client: messageBrokerClient,
+					MessagePublisher: messageBrokerClient,
 				},
 			},
 			Logger: print.New(logger),

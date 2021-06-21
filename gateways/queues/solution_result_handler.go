@@ -6,7 +6,6 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
-	rabbitmqutils "github.com/thewizardplusplus/go-rabbitmq-utils"
 )
 
 // SolutionRunner ...
@@ -14,11 +13,16 @@ type SolutionRunner interface {
 	RunSolution(solution entities.Solution) (entities.Solution, error)
 }
 
+// MessagePublisher ...
+type MessagePublisher interface {
+	PublishMessage(queue string, messageID string, messageData interface{}) error
+}
+
 // SolutionHandler ...
 type SolutionHandler struct {
 	SolutionResultQueueName string
 	SolutionRunner          SolutionRunner
-	Client                  rabbitmqutils.Client
+	MessagePublisher        MessagePublisher
 }
 
 // MessageType ...
@@ -35,7 +39,7 @@ func (handler SolutionHandler) HandleMessage(message interface{}) error {
 	}
 
 	messageID := fmt.Sprintf("solution-%d-result", solution.ID)
-	err = handler.Client.
+	err = handler.MessagePublisher.
 		PublishMessage(handler.SolutionResultQueueName, messageID, solution)
 	if err != nil {
 		return errors.Wrap(err, "unable to publish the solution result")
