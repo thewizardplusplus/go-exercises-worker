@@ -15,6 +15,8 @@ type SolutionRunner interface {
 	RunSolution(solution entities.Solution) (entities.Solution, error)
 }
 
+//go:generate mockery --name=MessagePublisher --inpackage --case=underscore --testonly
+
 // MessagePublisher ...
 type MessagePublisher interface {
 	PublishMessage(queue string, messageID string, messageData interface{}) error
