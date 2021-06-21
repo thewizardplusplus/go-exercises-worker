@@ -123,6 +123,7 @@
   input-imports = [
     "github.com/alecthomas/gometalinter",
     "github.com/caarlos0/env",
+    "github.com/deckarep/golang-set",
     "github.com/go-log/log",
     "github.com/go-log/log/print",
     "github.com/pkg/errors",
