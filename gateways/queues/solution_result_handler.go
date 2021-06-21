@@ -1,6 +1,7 @@
 package queues
 
 import (
+	"fmt"
 	"reflect"
 
 	"github.com/pkg/errors"
@@ -33,8 +34,9 @@ func (handler SolutionHandler) HandleMessage(message interface{}) error {
 		return errors.Wrap(err, "unable to run the solution")
 	}
 
+	messageID := fmt.Sprintf("solution-%d-result", solution.ID)
 	err = handler.Client.
-		PublishMessage(handler.SolutionResultQueueName, "", solution)
+		PublishMessage(handler.SolutionResultQueueName, messageID, solution)
 	if err != nil {
 		return errors.Wrap(err, "unable to publish the solution")
 	}
