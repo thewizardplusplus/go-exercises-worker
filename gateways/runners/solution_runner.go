@@ -24,9 +24,10 @@ type SolutionRunner struct {
 }
 
 // RunSolution ...
-func (runner SolutionRunner) RunSolution(
-	solution entities.Solution,
-) (entities.Solution, error) {
+func (runner SolutionRunner) RunSolution(solution entities.Solution) (
+	entities.Solution,
+	error,
+) {
 	pathToCode, err := systemutils.SaveTemporaryText(solution.Code, ".go")
 	if err != nil {
 		return entities.Solution{}, errors.Wrap(err, "unable to save the solution")
@@ -36,34 +37,41 @@ func (runner SolutionRunner) RunSolution(
 	ctx, cancel := context.WithTimeout(context.Background(), runner.RunningTimeout)
 	defer cancel()
 
-	updatedSolution := entities.Solution{ID: solution.ID}
 	pathToExecutable, err :=
 		coderunner.CompileCode(ctx, pathToCode, runner.AllowedImports)
 	if err != nil {
 		runner.Logger.
 			Log(errors.Wrapf(err, "[error] unable to compile solution #%d", solution.ID))
-		updatedSolution.Result = ErrFailedCompiling{ErrMessage: err.Error()}
 
+		updatedSolution := entities.Solution{
+			ID:     solution.ID,
+			Result: ErrFailedCompiling{ErrMessage: err.Error()},
+		}
 		return updatedSolution, nil
 	}
 
-	if err := testrunner.RunTestCases(
+	err = testrunner.RunTestCases(
 		ctx,
 		solution.Task.TestCases,
 		func(ctx context.Context, input string) (output string, err error) {
 			return systemutils.RunCommand(ctx, input, pathToExecutable)
 		},
-	); err != nil {
+	)
+	if err != nil {
 		runner.Logger.
 			Log(errors.Wrapf(err, "[error] unable to run solution #%d", solution.ID))
-		// the error is already wrapped in the testrunner.RunCode() function
-		updatedSolution.Result = err
 
+		updatedSolution := entities.Solution{
+			ID:     solution.ID,
+			Result: err, // error has already been wrapped in the testrunner package
+		}
 		return updatedSolution, nil
 	}
 
-	updatedSolution.IsCorrect = true
-	updatedSolution.Result = json.RawMessage("{}") // empty JSON object
-
+	updatedSolution := entities.Solution{
+		ID:        solution.ID,
+		IsCorrect: true,
+		Result:    json.RawMessage("{}"), // empty JSON object
+	}
 	return updatedSolution, nil
 }
