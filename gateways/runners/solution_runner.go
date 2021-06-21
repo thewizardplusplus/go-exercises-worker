@@ -8,9 +8,11 @@ import (
 	"path/filepath"
 	"time"
 
+	mapset "github.com/deckarep/golang-set"
 	"github.com/go-log/log"
 	"github.com/pkg/errors"
 	coderunner "github.com/thewizardplusplus/go-code-runner"
+	systemutils "github.com/thewizardplusplus/go-code-runner/system-utils"
 	testrunner "github.com/thewizardplusplus/go-code-runner/test-runner"
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
 )
@@ -27,7 +29,7 @@ func (err ErrFailedCompiling) Error() string {
 
 // SolutionRunner ...
 type SolutionRunner struct {
-	AllowedImports []string
+	AllowedImports mapset.Set
 	RunningTimeout time.Duration
 	Logger         log.Logger
 }
@@ -36,15 +38,18 @@ type SolutionRunner struct {
 func (runner SolutionRunner) RunSolution(
 	solution entities.Solution,
 ) (entities.Solution, error) {
-	pathToCode, err := coderunner.SaveTemporaryCode(solution.Code)
+	pathToCode, err := systemutils.SaveTemporaryText(solution.Code, ".go")
 	if err != nil {
 		return entities.Solution{}, errors.Wrap(err, "unable to save the solution")
 	}
 	defer os.RemoveAll(filepath.Dir(pathToCode)) // nolint: errcheck
 
+	ctx, cancel := context.WithTimeout(context.Background(), runner.RunningTimeout)
+	defer cancel()
+
 	updatedSolution := entities.Solution{ID: solution.ID}
 	pathToExecutable, err :=
-		coderunner.CompileCode(pathToCode, runner.AllowedImports)
+		coderunner.CompileCode(ctx, pathToCode, runner.AllowedImports)
 	if err != nil {
 		runner.Logger.
 			Log(errors.Wrapf(err, "[error] unable to compile solution #%d", solution.ID))
@@ -53,13 +58,12 @@ func (runner SolutionRunner) RunSolution(
 		return updatedSolution, nil
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), runner.RunningTimeout)
-	defer cancel()
-
-	if err := testrunner.RunCode(
+	if err := testrunner.RunTestCases(
 		ctx,
-		pathToExecutable,
 		solution.Task.TestCases,
+		func(ctx context.Context, input string) (output string, err error) {
+			return systemutils.RunCommand(ctx, input, pathToExecutable)
+		},
 	); err != nil {
 		runner.Logger.
 			Log(errors.Wrapf(err, "[error] unable to run solution #%d", solution.ID))
