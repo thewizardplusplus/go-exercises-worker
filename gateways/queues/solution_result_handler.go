@@ -7,6 +7,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/streadway/amqp"
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
+	rabbitmqutils "github.com/thewizardplusplus/go-rabbitmq-utils"
 )
 
 // SolutionRunner ...
@@ -22,13 +23,13 @@ type SolutionHandlerDependencies struct {
 
 // SolutionHandler ...
 type SolutionHandler struct {
-	client       Client
+	client       rabbitmqutils.Client
 	dependencies SolutionHandlerDependencies
 }
 
 // NewSolutionHandler ...
 func NewSolutionHandler(
-	client Client,
+	client rabbitmqutils.Client,
 	dependencies SolutionHandlerDependencies,
 ) SolutionHandler {
 	return SolutionHandler{client: client, dependencies: dependencies}
@@ -64,21 +65,8 @@ func (handler SolutionHandler) performHandling(
 		return solution, errors.Wrap(err, "unable to run the solution")
 	}
 
-	solutionAsJSON, err := json.Marshal(solution)
+	err = handler.client.PublishMessage(SolutionResultQueueName, "", solution)
 	if err != nil {
-		return solution, errors.Wrap(err, "unable to marshal the solution")
-	}
-
-	if err := handler.client.channel.Publish(
-		"",                      // exchange
-		SolutionResultQueueName, // queue name
-		false,                   // mandatory
-		false,                   // immediate
-		amqp.Publishing{
-			ContentType: "application/json",
-			Body:        solutionAsJSON,
-		},
-	); err != nil {
 		return solution, errors.Wrap(err, "unable to publish the solution")
 	}
 

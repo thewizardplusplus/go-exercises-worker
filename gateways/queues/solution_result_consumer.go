@@ -6,10 +6,8 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/streadway/amqp"
+	rabbitmqutils "github.com/thewizardplusplus/go-rabbitmq-utils"
 )
-
-// SolutionConsumerName ...
-const SolutionConsumerName = SolutionQueueName + "_consumer"
 
 // MessageHandler ...
 type MessageHandler interface {
@@ -18,7 +16,7 @@ type MessageHandler interface {
 
 // SolutionConsumer ...
 type SolutionConsumer struct {
-	client            Client
+	client            rabbitmqutils.Client
 	messages          <-chan amqp.Delivery
 	stoppingCtx       context.Context
 	stoppingCtxCancel context.CancelFunc
@@ -27,18 +25,10 @@ type SolutionConsumer struct {
 
 // NewSolutionConsumer ...
 func NewSolutionConsumer(
-	client Client,
+	client rabbitmqutils.Client,
 	messageHandler MessageHandler,
 ) (SolutionConsumer, error) {
-	messages, err := client.channel.Consume(
-		SolutionQueueName,    // queue name
-		SolutionConsumerName, // consumer name
-		false,                // auto-acknowledge
-		false,                // exclusive
-		false,                // no local
-		false,                // no wait
-		nil,                  // arguments
-	)
+	messages, err := client.ConsumeMessages(SolutionQueueName)
 	if err != nil {
 		return SolutionConsumer{},
 			errors.Wrap(err, "unable to start the message consumption")
@@ -82,10 +72,7 @@ func (consumer SolutionConsumer) StartConcurrently(concurrency int) {
 
 // Stop ...
 func (consumer SolutionConsumer) Stop() error {
-	if err := consumer.client.channel.Cancel(
-		SolutionConsumerName, // consumer name
-		false,                // no wait
-	); err != nil {
+	if err := consumer.client.CancelConsuming(SolutionQueueName); err != nil {
 		return errors.Wrap(err, "unable to cancel the message consumption")
 	}
 
