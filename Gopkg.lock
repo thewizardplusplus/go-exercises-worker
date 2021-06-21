@@ -90,15 +90,16 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:699c14b6f40c36f3b601c2f4a2f2e3d55f3fc6940cf2487a3bd7ecdfd15675df"
+  digest = "1:c80c4e2affaf91cfe422b314b8d33b5d55d801c36c2810d09ed4ff04fd3f55be"
   name = "github.com/thewizardplusplus/go-code-runner"
   packages = [
     ".",
+    "system-utils",
     "test-runner",
   ]
   pruneopts = "UT"
-  revision = "c81d18bf9b23855c5eebaf2bec417e34a9b8d545"
-  version = "v1.3"
+  revision = "98685f7a9fcdd84d014c3c4ad81e0d75a7297fd3"
+  version = "v1.4.1"
 
 [[projects]]
   branch = "v3-unstable"
@@ -127,6 +128,7 @@
     "github.com/pkg/errors",
     "github.com/streadway/amqp",
     "github.com/thewizardplusplus/go-code-runner",
+    "github.com/thewizardplusplus/go-code-runner/system-utils",
     "github.com/thewizardplusplus/go-code-runner/test-runner",
   ]
   solver-name = "gps-cdcl"
