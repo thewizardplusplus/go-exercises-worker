@@ -1,10 +1,9 @@
 package queues
 
 import (
-	"encoding/json"
+	"reflect"
 
 	"github.com/pkg/errors"
-	"github.com/streadway/amqp"
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
 	rabbitmqutils "github.com/thewizardplusplus/go-rabbitmq-utils"
 )
@@ -33,14 +32,15 @@ func NewSolutionHandler(
 	return SolutionHandler{client: client, dependencies: dependencies}
 }
 
-// HandleMessage ...
-func (handler SolutionHandler) HandleMessage(message amqp.Delivery) error {
-	var solution entities.Solution
-	if err := json.Unmarshal(message.Body, &solution); err != nil {
-		return errors.Wrap(err, "unable to unmarshal the solution")
-	}
+// MessageType ...
+func (handler SolutionHandler) MessageType() reflect.Type {
+	return reflect.TypeOf(entities.Solution{})
+}
 
-	solution, err := handler.dependencies.SolutionRunner.RunSolution(solution)
+// HandleMessage ...
+func (handler SolutionHandler) HandleMessage(message interface{}) error {
+	solution, err :=
+		handler.dependencies.SolutionRunner.RunSolution(message.(entities.Solution))
 	if err != nil {
 		return errors.Wrap(err, "unable to run the solution")
 	}
