@@ -28,6 +28,11 @@ type options struct {
 	}
 }
 
+const (
+	solutionQueueName       = "solution_queue"
+	solutionResultQueueName = "solution_result_queue"
+)
+
 func main() {
 	logger := log.New(os.Stderr, "", log.Ldate|log.Ltime|log.Lmicroseconds)
 
@@ -57,8 +62,8 @@ func main() {
 		options.MessageBroker.Address,
 		rabbitmqutils.WithMaximalQueueSize(options.SolutionConsumer.BufferSize),
 		rabbitmqutils.WithQueues([]string{
-			queues.SolutionQueueName,
-			queues.SolutionResultQueueName,
+			solutionQueueName,
+			solutionResultQueueName,
 		}),
 	)
 	if err != nil {
@@ -72,12 +77,12 @@ func main() {
 
 	solutionConsumer, err := rabbitmqutils.NewMessageConsumer(
 		messageBrokerClient,
-		queues.SolutionQueueName,
+		solutionQueueName,
 		rabbitmqutils.Acknowledger{
 			MessageHandling: rabbitmqutils.TwiceMessageHandling,
 			MessageHandler: rabbitmqutils.JSONMessageHandler{
 				MessageHandler: queues.SolutionHandler{
-					SolutionResultQueueName: queues.SolutionResultQueueName,
+					SolutionResultQueueName: solutionResultQueueName,
 					SolutionRunner: runners.SolutionRunner{
 						AllowedImports: allowedImports,
 						RunningTimeout: options.RunningTimeout,
