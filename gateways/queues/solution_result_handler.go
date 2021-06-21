@@ -8,6 +8,8 @@ import (
 	"github.com/thewizardplusplus/go-exercises-worker/entities"
 )
 
+//go:generate mockery --name=SolutionRunner --inpackage --case=underscore --testonly
+
 // SolutionRunner ...
 type SolutionRunner interface {
 	RunSolution(solution entities.Solution) (entities.Solution, error)
