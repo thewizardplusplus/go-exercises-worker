@@ -1,10 +1,12 @@
 FROM golang:1.15-alpine AS builder
 
-RUN apk update && \
-  apk add --no-cache curl git && \
-  curl -fsSL -o /usr/local/bin/dep https://github.com/golang/dep/releases/download/v0.5.4/dep-linux-amd64 && \
-  chmod +x /usr/local/bin/dep && \
-  go get golang.org/x/tools/cmd/goimports
+RUN apk update && apk add --no-cache curl git
+RUN curl -fsSL -o /usr/local/bin/dep https://github.com/golang/dep/releases/download/v0.5.4/dep-linux-amd64 \
+  && chmod +x /usr/local/bin/dep
+RUN go get golang.org/x/tools/cmd/goimports \
+  && cd $(go env GOPATH)/src/golang.org/x/tools/cmd/goimports \
+  && git checkout v0.1.4 \
+  && go install
 
 WORKDIR /go/src/github.com/thewizardplusplus/go-exercises-worker
 COPY Gopkg.toml Gopkg.lock ./
