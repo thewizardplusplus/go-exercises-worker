@@ -2,7 +2,8 @@
 
 [![GoDoc](https://godoc.org/github.com/thewizardplusplus/go-exercises-worker?status.svg)](https://godoc.org/github.com/thewizardplusplus/go-exercises-worker)
 [![Go Report Card](https://goreportcard.com/badge/github.com/thewizardplusplus/go-exercises-worker)](https://goreportcard.com/report/github.com/thewizardplusplus/go-exercises-worker)
-[![Build Status](https://travis-ci.org/thewizardplusplus/go-exercises-worker.svg?branch=master)](https://travis-ci.org/thewizardplusplus/go-exercises-worker)
+[![Build Status](https://travis-ci.com/thewizardplusplus/go-exercises-worker.svg?branch=master)](https://travis-ci.com/thewizardplusplus/go-exercises-worker)
+[![codecov](https://codecov.io/gh/thewizardplusplus/go-exercises-worker/branch/master/graph/badge.svg)](https://codecov.io/gh/thewizardplusplus/go-exercises-worker)
 
 ## Installation
 
