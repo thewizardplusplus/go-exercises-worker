@@ -1,16 +1,14 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/signal"
 	"time"
 
 	"github.com/caarlos0/env"
-	mapset "github.com/deckarep/golang-set"
 	"github.com/go-log/log/print"
+	"github.com/thewizardplusplus/go-exercises-worker/gateways/config"
 	"github.com/thewizardplusplus/go-exercises-worker/gateways/queues"
 	"github.com/thewizardplusplus/go-exercises-worker/gateways/runners"
 	rabbitmqutils "github.com/thewizardplusplus/go-rabbitmq-utils"
@@ -41,21 +39,9 @@ func main() {
 		logger.Fatalf("[error] unable to parse the options: %v", err)
 	}
 
-	allowedImportsAsJSON, err := ioutil.ReadFile(options.AllowedImportConfig)
+	allowedImports, err := config.LoadAllowedImports(options.AllowedImportConfig)
 	if err != nil {
-		logger.Fatalf("[error] unable to read the allowed import config: %v", err)
-	}
-	var allowedImportAsSlice []string
-	err = json.Unmarshal(allowedImportsAsJSON, &allowedImportAsSlice)
-	if err != nil {
-		logger.Fatalf(
-			"[error] unable to unmarshal the allowed import config: %v",
-			err,
-		)
-	}
-	allowedImports := mapset.NewSet()
-	for _, allowedImport := range allowedImportAsSlice {
-		allowedImports.Add(allowedImport)
+		logger.Fatalf("[error] unable to load the allowed imports: %v", err)
 	}
 
 	messageBrokerClient, err := rabbitmqutils.NewClient(
