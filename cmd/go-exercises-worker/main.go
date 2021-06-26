@@ -18,10 +18,10 @@ type options struct {
 	AllowedImportConfig string        `env:"ALLOWED_IMPORT_CONFIG" envDefault:"./configs/allowed_imports.json"` // nolint: lll
 	RunningTimeout      time.Duration `env:"RUNNING_TIMEOUT" envDefault:"10s"`
 	MessageBroker       struct {
-		Address string `env:"MESSAGE_BROKER_ADDRESS" envDefault:"amqp://rabbitmq:rabbitmq@localhost:5672"` // nolint: lll
+		Address    string `env:"MESSAGE_BROKER_ADDRESS" envDefault:"amqp://rabbitmq:rabbitmq@localhost:5672"` // nolint: lll
+		BufferSize int    `env:"MESSAGE_BROKER_BUFFER_SIZE" envDefault:"1000"`
 	}
 	SolutionConsumer struct {
-		BufferSize  int `env:"SOLUTION_CONSUMER_BUFFER_SIZE" envDefault:"1000"`
 		Concurrency int `env:"SOLUTION_CONSUMER_CONCURRENCY" envDefault:"1000"`
 	}
 }
@@ -46,7 +46,7 @@ func main() {
 
 	messageBrokerClient, err := rabbitmqutils.NewClient(
 		options.MessageBroker.Address,
-		rabbitmqutils.WithMaximalQueueSize(options.SolutionConsumer.BufferSize),
+		rabbitmqutils.WithMaximalQueueSize(options.MessageBroker.BufferSize),
 		rabbitmqutils.WithQueues([]string{
 			solutionQueueName,
 			solutionResultQueueName,

@@ -42,8 +42,9 @@ Environment variables:
 
 - `ALLOWED_IMPORT_CONFIG` &mdash; path to the allowed import config (default: `./configs/allowed_imports.json`);
 - `RUNNING_TIMEOUT` &mdash; maximal duration of solution running (default: `10s`);
-- `MESSAGE_BROKER_ADDRESS` &mdash; [RabbitMQ](https://www.rabbitmq.com/) connection URI (default: `amqp://rabbitmq:rabbitmq@localhost:5672`);
-- `SOLUTION_CONSUMER_BUFFER_SIZE` &mdash; solution consumer channel capacity (default: `1000`);
+- message broker:
+  - `MESSAGE_BROKER_ADDRESS` &mdash; [RabbitMQ](https://www.rabbitmq.com/) connection URI (default: `amqp://rabbitmq:rabbitmq@localhost:5672`);
+  - `MESSAGE_BROKER_BUFFER_SIZE` &mdash; [RabbitMQ](https://www.rabbitmq.com/) channel capacity (default: `1000`);
 - `SOLUTION_CONSUMER_CONCURRENCY` &mdash; amount of solution consumer threads (default: `1000`).
 
 ## License
