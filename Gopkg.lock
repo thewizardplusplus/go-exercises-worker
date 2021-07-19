@@ -284,7 +284,7 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:c80c4e2affaf91cfe422b314b8d33b5d55d801c36c2810d09ed4ff04fd3f55be"
+  digest = "1:42dfa59f9b12b0686b00a60e2beeaaa57345781c028940978b0cfefd55d227ea"
   name = "github.com/thewizardplusplus/go-code-runner"
   packages = [
     ".",
@@ -292,8 +292,8 @@
     "test-runner",
   ]
   pruneopts = "UT"
-  revision = "98685f7a9fcdd84d014c3c4ad81e0d75a7297fd3"
-  version = "v1.4.1"
+  revision = "88b4fc52f008d2ece1ff9877cf7531f178797b4e"
+  version = "v1.4.2"
 
 [[projects]]
   digest = "1:233ee13f033d56709783dd979f6b70a0eb5cc6513adc1039b5815b46f1bf0bd8"

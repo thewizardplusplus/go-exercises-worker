@@ -26,7 +26,7 @@ required = [
 
 [[constraint]]
   name = "github.com/thewizardplusplus/go-code-runner"
-  version = "1.4.1"
+  version = "1.4.2"
 
 [[constraint]]
   name = "github.com/deckarep/golang-set"
