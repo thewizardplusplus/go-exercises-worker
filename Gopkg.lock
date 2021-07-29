@@ -296,12 +296,12 @@
   version = "v1.4.2"
 
 [[projects]]
-  digest = "1:233ee13f033d56709783dd979f6b70a0eb5cc6513adc1039b5815b46f1bf0bd8"
+  digest = "1:6ebe660242fab3e7709dd364b24e5271e633c8b977cbb9e0a7e0f48e04fbb59d"
   name = "github.com/thewizardplusplus/go-rabbitmq-utils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "db428b0e542e18c05c4f69b47c618a92b6a82ad3"
-  version = "v1.1.1"
+  revision = "c698e6ca0f4e828dd45aca689f4bb798a4046c9d"
+  version = "v1.1.3"
 
 [[projects]]
   digest = "1:5f23ddb9541511a69abb9cd315a527e336743198bf486c57fc6db7daf66d924a"
