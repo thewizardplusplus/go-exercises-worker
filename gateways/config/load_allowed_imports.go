@@ -10,7 +10,7 @@ import (
 
 // LoadAllowedImports ...
 func LoadAllowedImports(configPath string) (mapset.Set, error) {
-	allowedImportsAsJSON, err := ioutil.ReadFile(configPath)
+	allowedImportsAsJSON, err := ioutil.ReadFile(configPath) // nolint: gosec
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to read the allowed imports")
 	}
