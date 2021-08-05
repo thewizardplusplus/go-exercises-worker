@@ -1,0 +1,17 @@
+asyncapi: 2.1.0
+info:
+  title: go-exercises-worker API
+  version: 1.1.4
+  license:
+    name: MIT
+channels:
+  solution_queue:
+    publish:
+      message:
+        payload:
+          type: object
+  solution_result_queue:
+    subscribe:
+      message:
+        payload:
+          type: object
