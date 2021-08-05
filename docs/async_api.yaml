@@ -8,10 +8,39 @@ channels:
   solution_queue:
     publish:
       message:
-        payload:
-          type: object
+        $ref: "#/components/messages/Solution"
   solution_result_queue:
     subscribe:
       message:
         payload:
           type: object
+components:
+  messages:
+    Solution:
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/entities.Solution"
+  schemas:
+    entities.Solution:
+      type: object
+      properties:
+        ID:
+          type: integer
+        Task:
+          $ref: "#/components/schemas/entities.Task"
+        Code:
+          type: string
+    entities.Task:
+      type: object
+      properties:
+        TestCases:
+          type: array
+          items:
+            $ref: "#/components/schemas/testrunner.TestCase"
+    testrunner.TestCase:
+      type: object
+      properties:
+        Input:
+          type: string
+        ExpectedOutput:
+          type: string
