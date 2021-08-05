@@ -48,6 +48,10 @@ Environment variables:
   - `MESSAGE_BROKER_BUFFER_SIZE` &mdash; [RabbitMQ](https://www.rabbitmq.com/) channel capacity (default: `1000`);
 - `SOLUTION_CONSUMER_CONCURRENCY` &mdash; amount of solution consumer threads (default: `1000`).
 
+## API Description
+
+API description in the [AsyncAPI](https://www.asyncapi.com/) format: [docs/async_api.yaml](docs/async_api.yaml).
+
 ## License
 
 The MIT License (MIT)
