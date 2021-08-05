@@ -26,3 +26,10 @@ services:
     volumes:
       - ./docs/async_api.yaml:/app/async_api.yaml
       - ./docs/async-api:/app/async-api
+
+  asyncapi:
+    image: nginx:1.21.1-alpine
+    ports:
+      - 9091:80
+    volumes:
+      - ./docs/async-api:/usr/share/nginx/html
