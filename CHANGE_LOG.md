@@ -6,6 +6,34 @@
 
 ## [v1.1.2](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.2) (2021-06-26)
 
+Cover with unit tests the loading of the allowed imports from an outer configuration, and add the script for generating such configuration.
+
+- solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package:
+  - loading of the allowed imports from an outer configuration:
+    - cover the code with unit tests;
+- add the script for generating the allowed import configuration.
+
+### Features
+
+- interaction with queues:
+  - common properties:
+    - automatic declaring of the used queues;
+    - passing of a message data in JSON;
+  - operations:
+    - consuming of the solutions:
+      - concurrent handling;
+      - once requeue the solution on failure;
+    - producing of the solution results:
+      - generating of the custom message ID;
+- solution runners:
+  - solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package:
+    - loading of the allowed imports from an outer configuration;
+    - canceling by a timeout:
+      - code compiling;
+      - code execution;
+- tools:
+  - script for generating the allowed import configuration.
+
 ## [v1.1.1](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.1) (2021-06-21)
 
 Generating of the custom message ID on producing of the solution results, and canceling the code compiling by a timeout in the solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package.
