@@ -14,6 +14,28 @@
 
 ## [v1.0-alpha.1](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.0-alpha.1) (2021-03-27)
 
+Second alpha of the major version. Update the models and requeue the solution on failure once only.
+
+- update the models:
+  - of the solution;
+  - of the solution result;
+- requeue the solution on failure once only;
+- add the debug logging to the dummy solution runner.
+
+### Features
+
+- interaction with queues:
+  - common properties:
+    - automatic declaring of the used queues;
+    - passing of a message data in JSON;
+  - operations:
+    - consuming of the solutions:
+      - concurrent handling;
+      - once requeue the solution on failure;
+    - producing of the solution results;
+- solution runners:
+  - dummy solution runner (returns the current timestamp as the result).
+
 ## [v1.0-alpha](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.0-alpha) (2021-03-26)
 
 Alpha of the major version. Implementing of the consuming of the solutions, the producing of the solution results, and the dummy solution runner.
