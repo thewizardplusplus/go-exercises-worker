@@ -8,6 +8,39 @@
 
 ## [v1.1.1](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.1) (2021-06-21)
 
+Generating of the custom message ID on producing of the solution results, and canceling the code compiling by a timeout in the solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package.
+
+- dependencies:
+  - update the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package;
+  - use the [github.com/thewizardplusplus/go-rabbitmq-utils](https://github.com/thewizardplusplus/go-rabbitmq-utils) package;
+- producing of the solution results:
+  - generating of the custom message ID;
+  - cover the code with unit tests;
+- solution runners:
+  - remove the dummy solution runner;
+  - solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package:
+    - canceling the code compiling by a timeout;
+    - cover the code with unit tests.
+
+### Features
+
+- interaction with queues:
+  - common properties:
+    - automatic declaring of the used queues;
+    - passing of a message data in JSON;
+  - operations:
+    - consuming of the solutions:
+      - concurrent handling;
+      - once requeue the solution on failure;
+    - producing of the solution results:
+      - generating of the custom message ID;
+- solution runners:
+  - solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package:
+    - loading of the allowed imports from an outer configuration;
+    - canceling by a timeout:
+      - code compiling;
+      - code execution.
+
 ## [v1.1](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1) (2021-04-06)
 
 Canceling the code execution by a timeout in the solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package.
