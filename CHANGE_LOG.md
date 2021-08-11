@@ -2,6 +2,16 @@
 
 ## [v1.1.4](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.4) (2021-08-05)
 
+Add the API description in the [AsyncAPI](https://www.asyncapi.com/) format.
+
+- API description in the [AsyncAPI](https://www.asyncapi.com/) format:
+  - describe the API:
+    - for consuming of the solutions;
+    - for producing of the solution results;
+  - add the Docker Compose configuration:
+    - for generating of the API description;
+    - for displaying of the API description.
+
 ## [v1.1.3](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.3) (2021-08-04)
 
 Install the [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) tool in the Travis CI configuration and add the general integration tests.
