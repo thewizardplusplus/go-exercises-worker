@@ -5,6 +5,29 @@
 [![Build Status](https://travis-ci.com/thewizardplusplus/go-exercises-worker.svg?branch=master)](https://travis-ci.com/thewizardplusplus/go-exercises-worker)
 [![codecov](https://codecov.io/gh/thewizardplusplus/go-exercises-worker/branch/master/graph/badge.svg)](https://codecov.io/gh/thewizardplusplus/go-exercises-worker)
 
+Background worker of the service for solving programming exercises.
+
+## Features
+
+- interaction with queues:
+  - common properties:
+    - automatic declaring of the used queues;
+    - passing of a message data in JSON;
+  - operations:
+    - consuming of the solutions:
+      - concurrent handling;
+      - once requeue the solution on failure;
+    - producing of the solution results:
+      - generating of the custom message ID;
+- solution runners:
+  - solution runner based on the [github.com/thewizardplusplus/go-code-runner](https://github.com/thewizardplusplus/go-code-runner) package:
+    - loading of the allowed imports from an outer configuration;
+    - canceling by a timeout:
+      - code compiling;
+      - code execution;
+- tools:
+  - script for generating the allowed import configuration.
+
 ## Installation
 
 Prepare the directory:
