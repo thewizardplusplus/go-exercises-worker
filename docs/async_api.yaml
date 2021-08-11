@@ -1,7 +1,7 @@
 asyncapi: 2.1.0
 info:
   title: go-exercises-worker API
-  version: 1.1.4
+  version: 1.1.5
   license:
     name: MIT
 channels:
