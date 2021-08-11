@@ -1,5 +1,13 @@
 # Change Log
 
+## [v1.1.5](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.5) (2021-08-11)
+
+Describe releases of the project.
+
+- describe for releases:
+  - features;
+  - change log.
+
 ## [v1.1.4](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.4) (2021-08-05)
 
 Add the API description in the [AsyncAPI](https://www.asyncapi.com/) format.
