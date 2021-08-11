@@ -4,6 +4,15 @@
 
 ## [v1.1.3](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.3) (2021-08-04)
 
+Install the [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) tool in the Travis CI configuration and add the general integration tests.
+
+- rename the used environment variables;
+- [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) tool:
+  - specify the version of the tool in the Docker configuration;
+  - install the tool in the Travis CI configuration;
+- add the general integration tests;
+- fix and complete the badges in the README.md file.
+
 ## [v1.1.2](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.2) (2021-06-26)
 
 Cover with unit tests the loading of the allowed imports from an outer configuration, and add the script for generating such configuration.
