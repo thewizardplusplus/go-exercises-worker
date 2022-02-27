@@ -30,6 +30,6 @@ services:
   asyncapi:
     image: nginx:1.21.1-alpine
     ports:
-      - 9091:80
+      - 9093:80
     volumes:
       - ./docs/async-api:/usr/share/nginx/html
