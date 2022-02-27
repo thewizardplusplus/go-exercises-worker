@@ -7,7 +7,7 @@ services:
       ALLOWED_IMPORT_CONFIG: /etc/go-exercises-worker/allowed_imports.json
     command:
       - /usr/local/bin/wait-for-it.sh
-      - localhost:5672
+      - localhost:5672 # wait for a RabbitMQ server
       - --
       - /usr/local/bin/go-exercises-worker
     volumes:
