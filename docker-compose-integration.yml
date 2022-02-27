@@ -22,7 +22,7 @@ services:
       - --output=/app/async-api
       - --force-write
       - /app/async_api.yaml
-      - "@asyncapi/html-template"
+      - "@asyncapi/html-template@0.24.8"
     volumes:
       - ./docs/async_api.yaml:/app/async_api.yaml
       - ./docs/async-api:/app/async-api
