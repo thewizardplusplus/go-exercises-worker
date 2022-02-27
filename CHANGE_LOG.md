@@ -1,5 +1,16 @@
 # Change Log
 
+## [v1.1.6](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.6) (2022-02-27)
+
+Change the port for displaying the API description and fix the dependencies.
+
+- change the port for displaying the API description;
+- fix the dependencies:
+  - specify the version of the `@asyncapi/html-template` package;
+  - update the dependencies:
+    - update the `github.com/thewizardplusplus/go-rabbitmq-utils` package to v1.1.4;
+    - update the `asyncapi/generator` image to v1.9.0.
+
 ## [v1.1.5](https://github.com/thewizardplusplus/go-exercises-worker/tree/v1.1.5) (2021-08-11)
 
 Describe releases of the project.
